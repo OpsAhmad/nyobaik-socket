@@ -1,0 +1,25 @@
+body {
+  background: #4245fd;
+}
+
+.message-container {
+  background: #fff;
+  height: 340px;
+  overflow: auto;
+}
+
+.input-message {
+  margin-top: 10px;
+}
+
+.input-message input {
+  background: white;
+  padding: 15px;
+  width: 100%;
+}
+
+.input-message button {
+  width: 100%;
+  background: #c0ff14;
+}
+/*# sourceMappingURL=main.css.map */

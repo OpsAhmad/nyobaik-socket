@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coba socket.io</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="text-white">Chat room</h1>
+        <p class="text-white"><span class="userOnline">1</span> online</p>
+        <div class="message-container">
+            <ul class="list-group" id="message-list">
+              </ul>
+        </div>
+        <div class="input-message">
+            <input type="text" placeholder="Your message" id="message">
+            <button class="py-3" id="send-message">Send</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        // on first load
+        let text;
+        let person = prompt("Please enter your name:", "");
+        if (person == null || person == "") {
+            window.location.reload();
+        } else {
+            alert("Welcome "+person)
+        }
+        document.getElementById("demo").innerHTML = text;
+    </script>
+
+
+    <script>
+        var socket = io();
+
+        socket.emit("join");
+        socket.on("userOnline",(countUserOnline)=>{
+            // alert(countUserOnline)
+            $(".userOnline").html(countUserOnline)
+        })
+    </script>
+
+    <script>
+        $("#send-message").click(function(){
+            socket.emit("message",{
+                text:person+ " : " +$("#message").val()
+            })
+            $("#message").val("")
+        })
+    </script>
+
+    <script>
+        $("#message-list").html("")
+        socket.on("message",(param)=>{
+            $("#message-list").append(`
+                <li class="list-group-item">
+                    ${param.text}    
+                </li>
+            `)
+        })
+    </script>
+
+</body>
+</html>
